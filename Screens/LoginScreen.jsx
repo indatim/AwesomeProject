@@ -30,17 +30,17 @@ export const LoginScreen = () => {
               <View style={styles.inputContainer}>
                 <TextInput
                   style={styles.inputEmail}
-                  placeholder="Email"
+                  placeholder="Адреса електронної пошти"
                   keyboardType="email-address"
                 ></TextInput>
                 <View style={styles.passContainer}>
                   <TextInput
                     style={styles.inputPass}
-                    placeholder="Password"
+                    placeholder="Пароль"
                     textContentType="password"
                   ></TextInput>
                   <TouchableOpacity style={styles.showPassContainer}>
-                    <Text style={styles.showPassText}></Text>
+                    <Text style={styles.showPassText}>Показати</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -154,7 +154,7 @@ export const styles = StyleSheet.create({
     right: 40,
   },
 
-  showPassContainer: {
+  showPassText: {
     fontFamily: "Roboto400",
     fontSize: 16,
     lineHeight: 19,

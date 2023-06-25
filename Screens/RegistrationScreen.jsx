@@ -17,7 +17,6 @@ import add from "../assets/add.png";
 
 export const RegistrationScreen = () => {
   return (
-
     <TouchableWithoutFeedback>
       <View style={styles.container}>
         <ImageBackground
@@ -31,10 +30,7 @@ export const RegistrationScreen = () => {
           <View style={styles.containerForm}>
             <View style={styles.regForm}>
               <View style={styles.regFormPhoto}>
-                <Image
-                  source={add}
-                  style={styles.regAddPhoto}
-                ></Image>
+                <Image source={add} style={styles.regAddPhoto}></Image>
               </View>
               <Text style={styles.regTitle}>Реєстрація</Text>
               <View style={styles.inputContainer}>
@@ -51,13 +47,10 @@ export const RegistrationScreen = () => {
                   <TextInput
                     style={styles.inputPass}
                     placeholder="Пароль"
+                    textContentType="password"
                   ></TextInput>
-                  <TouchableOpacity
-                    style={styles.showPassContainer}
-                  >
-                    <Text style={styles.showPassText}>
-                      Показати
-                    </Text>
+                  <TouchableOpacity style={styles.showPassContainer}>
+                    <Text style={styles.showPassText}>Показати</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -66,9 +59,7 @@ export const RegistrationScreen = () => {
               </Pressable>
               <View>
                 <TouchableOpacity>
-                  <Text style={styles.accountText}>
-                    Вже є акаунт? Увійти
-                  </Text>
+                  <Text style={styles.accountText}>Вже є акаунт? Увійти</Text>
                 </TouchableOpacity>
               </View>
             </View>
