@@ -1,5 +1,8 @@
-import { Platform, Pressable, 
-    StyleSheet, 
+import React, { useState } from "react";
+import {
+  Platform,
+  Pressable,
+  StyleSheet,
   View,
   ImageBackground,
   Text,
@@ -11,7 +14,18 @@ import { Platform, Pressable,
 } from "react-native";
 import PhotoBG from "../assets/PhotoBG.jpg";
 
+const initialState = {
+  email: "",
+  password: "",
+};
+
 export const LoginScreen = () => {
+  const [state, setState] = useState(initialState);
+
+  const onLogin = () => {
+    console.log(state);
+    setState(initialState);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -32,27 +46,33 @@ export const LoginScreen = () => {
                   style={styles.inputEmail}
                   placeholder="Адреса електронної пошти"
                   keyboardType="email-address"
+                  onChangeText={(text) =>
+                    setState({ ...state, email: text.trim() })
+                  }
+                  value={state.email}
                 ></TextInput>
                 <View style={styles.passContainer}>
                   <TextInput
                     style={styles.inputPass}
                     placeholder="Пароль"
                     textContentType="password"
+                    onChangeText={(text) =>
+                      setState({ ...state, password: text.trim() })
+                    }
+                    value={state.password}
                   ></TextInput>
                   <TouchableOpacity style={styles.showPassContainer}>
                     <Text style={styles.showPassText}>Показати</Text>
                   </TouchableOpacity>
                 </View>
               </View>
-              <Pressable style={styles.logInBtn}>
+              <Pressable onPress={onLogin} style={styles.logInBtn}>
                 <Text style={styles.btnText}>Увійти</Text>
               </Pressable>
-              <View>
-                <TouchableOpacity style={styles.textLogInContainer}>
-                  <Text style={styles.regText}>
-                    Немає аккаунту?
-                    <Text style={styles.regTextLink}>Зареєструватися</Text>
-                  </Text>
+              <View style={styles.textLogInContainer}>
+                <Text style={styles.regText}>Немає аккаунту? </Text>
+                <TouchableOpacity>
+                  <Text style={styles.regTextLink}>Зареєструватися</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -68,17 +88,18 @@ export const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
     justifyContent: "center",
-    alignItems: "center",
   },
+
+  textLogInContainer: {},
 
   bgimage: {
     position: "absolute",
     top: 0,
     left: 0,
-    transform: [{ translateX: -196 }],
+    // transform: [{ translateX: -196 }],
     flex: 1,
     justifyContent: "center",
-    width: 393,
+    width: 395,
     height: 830,
     resizeMode: "cover",
   },
@@ -90,8 +111,9 @@ export const styles = StyleSheet.create({
   loginForm: {
     flex: 1,
     position: "absolute",
-    transform: [{ translateX: -196 }, { translateY: -60 }],
-    width: 393,
+    transform: [{ translateY: -60 }],
+    // transform: [{ translateX: -196 }, { translateY: -60 }],
+    width: 395,
     height: 506,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
@@ -179,16 +201,23 @@ export const styles = StyleSheet.create({
     lineHeight: 19,
   },
 
+  textLogInContainer: {
+    flexDirection: "row",
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
   regText: {
     textAlign: "center",
     fontFamily: "Roboto400",
     fontSize: 16,
-      lineHeight: 19,
-      color: "#1B4371",
+    lineHeight: 19,
+    color: "#1B4371",
   },
 
-    regTextLink: {
-      marginLeft: 5,
+  regTextLink: {
+    padding: 0,
     textAlign: "center",
     textDecorationLine: "underline",
     textDecorationStyle: "solid",

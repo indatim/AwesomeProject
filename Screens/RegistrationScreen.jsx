@@ -1,4 +1,6 @@
-import {Platform, 
+import React, { useState } from "react";
+import {
+  Platform,
   StyleSheet,
   View,
   ImageBackground,
@@ -9,15 +11,28 @@ import {Platform,
   Pressable,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import PhotoBG from "../assets/PhotoBG.jpg";
-// import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
 import add from "../assets/add.png";
 
+const initialState = {
+  userName: "",
+  email: "",
+  password: "",
+};
+
 export const RegistrationScreen = () => {
+
+  const [state, setState] = useState(initialState);
+
+  const onRegister = () => {
+    console.log(state);
+    setState(initialState);
+  };
+
   return (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <ImageBackground
           source={PhotoBG}
@@ -37,24 +52,37 @@ export const RegistrationScreen = () => {
                 <TextInput
                   style={styles.inputLogin}
                   placeholder="Логін"
+                  value={state.userName}
+                  onChangeText={(text) =>
+                    setState({ ...state, userName: text.trim() })
+                  }
                 ></TextInput>
                 <TextInput
                   style={styles.inputEmail}
                   placeholder="Адреса електронної пошти"
                   keyboardType="email-address"
+                  value={state.email}
+                  onChangeText={(text) =>
+                    setState({ ...state, email: text.trim() })
+                  }
                 ></TextInput>
                 <View style={styles.passContainer}>
                   <TextInput
                     style={styles.inputPass}
                     placeholder="Пароль"
                     textContentType="password"
+                    secureTextEntry={true}
+                    value={state.password}
+                    onChangeText={(text) =>
+                      setState({ ...state, password: text.trim() })
+                    }
                   ></TextInput>
                   <TouchableOpacity style={styles.showPassContainer}>
                     <Text style={styles.showPassText}>Показати</Text>
                   </TouchableOpacity>
                 </View>
               </View>
-              <Pressable style={styles.signUpBtn}>
+              <Pressable onPress={onRegister} style={styles.signUpBtn}>
                 <Text style={styles.btnText}>Зареєстуватися</Text>
               </Pressable>
               <View>
@@ -75,17 +103,16 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
     justifyContent: "center",
-    alignItems: "center",
   },
 
   bgimage: {
     position: "absolute",
     top: 0,
     left: 0,
-    transform: [{ translateX: -196 }],
+    // transform: [{ translateX: -196 }],
     flex: 1,
     justifyContent: "center",
-    width: 393,
+    width: 395,
     height: 830,
     resizeMode: "cover",
   },
@@ -97,7 +124,8 @@ const styles = StyleSheet.create({
   regForm: {
     flex: 1,
     position: "absolute",
-    transform: [{ translateX: -196 }, { translateY: -140 }],
+    transform: [{ translateY: -140 }],
+    // transform: [{ translateX: -196 }, { translateY: -140 }],
     width: 393,
     height: 566,
     borderTopRightRadius: 25,
