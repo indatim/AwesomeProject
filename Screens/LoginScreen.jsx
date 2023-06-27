@@ -12,7 +12,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import PhotoBG from "../assets/PhotoBG.jpg";
 
 const initialState = {
   email: "",
@@ -20,8 +19,8 @@ const initialState = {
 };
 
 export const LoginScreen = () => {
-  const [state, setState] = useState(initialState);
 
+  const [state, setState] = useState(initialState);
   const onLogin = () => {
     console.log(state);
     setState(initialState);
@@ -31,23 +30,26 @@ export const LoginScreen = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <ImageBackground
-          source={PhotoBG}
-          imageStyle={styles.bgimage}
-        ></ImageBackground>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.container}
+          source={require("../assets/bgimage.jpg")}
+          style={styles.backgroundImage}
         >
-          <View style={styles.containerForm}>
-            <View style={styles.loginForm}>
+          <KeyboardAvoidingView
+            style={styles.keyboardAvoidingContainer}
+            behavior="height"
+          >
+            <View style={styles.loginFormContainer}>
               <Text style={styles.loginTitle}>Увійти</Text>
+
               <View style={styles.inputContainer}>
                 <TextInput
                   style={styles.inputEmail}
                   placeholder="Адреса електронної пошти"
                   keyboardType="email-address"
                   onChangeText={(text) =>
-                    setState({ ...state, email: text.trim() })
+                    setState({
+                      ...state,
+                      email: text.trim(),
+                    })
                   }
                   value={state.email}
                 ></TextInput>
@@ -57,7 +59,10 @@ export const LoginScreen = () => {
                     placeholder="Пароль"
                     textContentType="password"
                     onChangeText={(text) =>
-                      setState({ ...state, password: text.trim() })
+                      setState({
+                        ...state,
+                        password: text.trim(),
+                      })
                     }
                     value={state.password}
                   ></TextInput>
@@ -66,62 +71,55 @@ export const LoginScreen = () => {
                   </TouchableOpacity>
                 </View>
               </View>
-              <Pressable onPress={onLogin} style={styles.logInBtn}>
-                <Text style={styles.btnText}>Увійти</Text>
-              </Pressable>
-              <View style={styles.textLogInContainer}>
-                <Text style={styles.regText}>Немає аккаунту? </Text>
-                <TouchableOpacity>
-                  <Text style={styles.regTextLink}>Зареєструватися</Text>
-                </TouchableOpacity>
-              </View>
+            </View>
+          </KeyboardAvoidingView>
+          <View style={styles.btnFormContainer}>
+            <Pressable onPress={onLogin} style={styles.logInBtn}>
+              <Text style={styles.btnText}>Увійти</Text>
+            </Pressable>
+            <View style={styles.textLogInContainer}>
+              <Text style={styles.regText}>Немає аккаунту? </Text>
+              <TouchableOpacity>
+                <Text style={styles.regTextLink}>Зареєструватися</Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </KeyboardAvoidingView>
+        </ImageBackground>
       </View>
     </TouchableWithoutFeedback>
   );
 };
-
+  
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative",
-    justifyContent: "center",
   },
 
-  textLogInContainer: {},
-
-  bgimage: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    // transform: [{ translateX: -196 }],
+  keyboardAvoidingContainer: {
     flex: 1,
-    justifyContent: "center",
-    width: 395,
-    height: 830,
+    width: "100%",
+    justifyContent: "flex-end",
+  },
+
+  backgroundImage: {
+    flex: 1,
     resizeMode: "cover",
   },
 
-  containerForm: {
+  loginFormContainer: {
     position: "relative",
-  },
-
-  loginForm: {
-    flex: 1,
-    position: "absolute",
-    transform: [{ translateY: -60 }],
-    // transform: [{ translateX: -196 }, { translateY: -60 }],
-    width: 395,
-    height: 506,
-    borderTopRightRadius: 25,
-    borderTopLeftRadius: 25,
-    backgroundColor: "#FFFFFF",
+    marginTop: "auto",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
     paddingTop: 32,
-    paddingRight: 16,
-    paddingBottom: 144,
-    paddingLeft: 16,
+    paddingBottom: 1,
+    backgroundColor: "#FFFFFF",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    // borderWidth: 1,
+    // borderColor: "#212121",
   },
 
   loginTitle: {
@@ -181,6 +179,15 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     color: "#1B4371",
+  },
+
+  btnFormContainer: {
+    // position: "relative",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 16,
+    paddingBottom: 144,
   },
 
   logInBtn: {

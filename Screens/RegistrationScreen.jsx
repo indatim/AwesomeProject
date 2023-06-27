@@ -13,8 +13,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import PhotoBG from "../assets/PhotoBG.jpg";
-import add from "../assets/add.png";
 
 const initialState = {
   userName: "",
@@ -25,7 +23,6 @@ const initialState = {
 export const RegistrationScreen = () => {
 
   const [state, setState] = useState(initialState);
-
   const onRegister = () => {
     console.log(state);
     setState(initialState);
@@ -35,17 +32,18 @@ export const RegistrationScreen = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <ImageBackground
-          source={PhotoBG}
-          imageStyle={styles.bgimage}
-        ></ImageBackground>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.container}
+          source={require("../assets/bgimage.jpg")}
+          style={styles.backgroundImage}
         >
-          <View style={styles.containerForm}>
-            <View style={styles.regForm}>
+          <KeyboardAvoidingView
+            style={styles.keyboardAvoidingContainer}
+            behavior="height"
+          >
+            <View style={styles.regFormContainer}>
               <View style={styles.regFormPhoto}>
-                <Image source={add} style={styles.regAddPhoto}></Image>
+                <Pressable style={styles.regAddPhoto}>
+                  <Image source={require("../assets/add.png")}></Image>
+                </Pressable>
               </View>
               <Text style={styles.regTitle}>Реєстрація</Text>
               <View style={styles.inputContainer}>
@@ -82,17 +80,20 @@ export const RegistrationScreen = () => {
                   </TouchableOpacity>
                 </View>
               </View>
-              <Pressable onPress={onRegister} style={styles.signUpBtn}>
-                <Text style={styles.btnText}>Зареєстуватися</Text>
-              </Pressable>
-              <View>
-                <TouchableOpacity>
-                  <Text style={styles.accountText}>Вже є акаунт? Увійти</Text>
-                </TouchableOpacity>
-              </View>
+            </View>
+          </KeyboardAvoidingView>
+
+          <View style={styles.btnFormContainer}>
+            <Pressable onPress={onRegister} style={styles.signUpBtn}>
+              <Text style={styles.btnText}>Зареєстуватися</Text>
+            </Pressable>
+            <View>
+              <TouchableOpacity>
+                <Text style={styles.accountText}>Вже є акаунт? Увійти</Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </KeyboardAvoidingView>
+        </ImageBackground>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -102,46 +103,37 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative",
-    justifyContent: "center",
   },
 
-  bgimage: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    // transform: [{ translateX: -196 }],
+  keyboardAvoidingContainer: {
     flex: 1,
-    justifyContent: "center",
-    width: 395,
-    height: 830,
+    width: "100%",
+    justifyContent: "flex-end",
+  },
+
+  backgroundImage: {
+    flex: 1,
     resizeMode: "cover",
   },
 
-  containerForm: {
+  regFormContainer: {
     position: "relative",
-  },
-
-  regForm: {
-    flex: 1,
-    position: "absolute",
-    transform: [{ translateY: -140 }],
-    // transform: [{ translateX: -196 }, { translateY: -140 }],
-    width: 393,
-    height: 566,
-    borderTopRightRadius: 25,
-    borderTopLeftRadius: 25,
-    backgroundColor: "#FFFFFF",
+    marginTop: "auto",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
     paddingTop: 92,
-    paddingRight: 16,
-    paddingBottom: 78,
-    paddingLeft: 16,
+    paddingBottom: 1,
+    backgroundColor: "#FFFFFF",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    // borderWidth: 1,
+    // borderColor: "#212121",
   },
 
   regFormPhoto: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    transform: [{ translateX: 136 }, { translateY: -60 }],
+    top: -60,
     width: 120,
     height: 120,
     backgroundColor: "#F6F6F6",
@@ -159,14 +151,11 @@ const styles = StyleSheet.create({
   regTitle: {
     fontFamily: "Roboto500",
     fontSize: 30,
-    lineHeight: 35,
-    letterSpacing: 0.3,
-    textAlign: "center",
-    marginBottom: 32,
+    marginBottom: 33,
   },
 
   inputContainer: {
-    marginBottom: 44,
+    marginBottom: 43,
   },
 
   inputLogin: {
@@ -226,6 +215,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     color: "#1B4371",
+  },
+
+  btnFormContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 16,
+    paddingBottom: 78,
   },
 
   signUpBtn: {
