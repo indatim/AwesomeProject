@@ -2,6 +2,7 @@ import { useFonts } from "expo-font";
 import RegistrationScreen from './Screens/RegistrationScreen';
 import LoginScreen from './Screens/LoginScreen';
 import PostsScreen from './Screens/PostsScreen';
+import Toast from "react-native-toast-message";
 
 export default function App() {
 
@@ -16,8 +17,11 @@ export default function App() {
   }
 
   return (
-    <RegistrationScreen />
-    // <LoginScreen />
-    // <PostsScreen />
+    <>
+      <RegistrationScreen />
+      {/* <LoginScreen /> */}
+      {/* <PostsScreen /> */}
+      <Toast />
+    </>
   );
 }

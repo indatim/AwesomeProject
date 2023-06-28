@@ -11,7 +11,9 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
+import Toast from "react-native-toast-message";
 
 const initialState = {
   email: "",
@@ -21,9 +23,40 @@ const initialState = {
 export const LoginScreen = () => {
 
   const [state, setState] = useState(initialState);
+  const [isShowPassword, setIsShowPassword] = useState(false);
+
   const onLogin = () => {
+
+    if (!state.email || !state.password) {
+      Toast.show({
+        type: "error",
+        text1: "Всі поля мають бути заповнені!",
+      });
+      return;
+    }
+
+    if (!state.email.includes("@")) {
+      Toast.show({
+        type: "error",
+        text1: "Введіть дійсну електронну пошту!",
+      });
+      return;
+    }
+
+    if (state.password.length < 5) {
+      Toast.show({
+        type: "error",
+        text1: "Пароль має бути не менше 5 символів!",
+      });
+      return;
+    }
+
     console.log(state);
     setState(initialState);
+  };
+
+  const handleShowPass = () => {
+    setIsShowPassword(!isShowPassword);
   };
 
   return (
@@ -58,16 +91,22 @@ export const LoginScreen = () => {
                     style={styles.inputPass}
                     placeholder="Пароль"
                     textContentType="password"
+                    secureTextEntry={!isShowPassword}
+                    minLength={5}
+                    maxLength={20}
+                    value={state.password}
                     onChangeText={(text) =>
                       setState({
                         ...state,
                         password: text.trim(),
                       })
                     }
-                    value={state.password}
                   ></TextInput>
                   <TouchableOpacity style={styles.showPassContainer}>
-                    <Text style={styles.showPassText}>Показати</Text>
+                    <Text style={styles.showPassText} onPress={handleShowPass}>
+                      {""}
+                      {!isShowPassword ? "Показати" : "Сховати"}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -171,7 +210,7 @@ export const styles = StyleSheet.create({
   showPassContainer: {
     position: "absolute",
     top: 16,
-    right: 40,
+    right: 16,
   },
 
   showPassText: {
