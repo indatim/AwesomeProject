@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   Platform,
@@ -11,7 +12,6 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
 } from "react-native";
 import Toast from "react-native-toast-message";
 
@@ -21,12 +21,15 @@ const initialState = {
 };
 
 export const LoginScreen = () => {
-
   const [state, setState] = useState(initialState);
   const [isShowPassword, setIsShowPassword] = useState(false);
 
-  const onLogin = () => {
+  const [emailFocus, setEmailFocus] = useState(false);
+  const [passFocus, setPassFocus] = useState(false);
 
+  const navigation = useNavigation();
+
+  const onLogin = () => {
     if (!state.email || !state.password) {
       Toast.show({
         type: "error",
@@ -51,7 +54,8 @@ export const LoginScreen = () => {
       return;
     }
 
-    console.log(state);
+    // console.log(state);
+    navigation.navigate("Home");
     setState(initialState);
   };
 
@@ -75,7 +79,11 @@ export const LoginScreen = () => {
 
               <View style={styles.inputContainer}>
                 <TextInput
-                  style={styles.inputEmail}
+                  style={
+                    emailFocus ? styles.inputEmailFocus : styles.inputEmail
+                  }
+                  onFocus={() => setEmailFocus(true)}
+                  onBlur={() => setEmailFocus(false)}
                   placeholder="Адреса електронної пошти"
                   keyboardType="email-address"
                   onChangeText={(text) =>
@@ -88,7 +96,9 @@ export const LoginScreen = () => {
                 ></TextInput>
                 <View style={styles.passContainer}>
                   <TextInput
-                    style={styles.inputPass}
+                    style={passFocus ? styles.inputPassFocus : styles.inputPass}
+                    onFocus={() => setPassFocus(true)}
+                    onBlur={() => setPassFocus(false)}
                     placeholder="Пароль"
                     textContentType="password"
                     secureTextEntry={!isShowPassword}
@@ -118,7 +128,7 @@ export const LoginScreen = () => {
             </Pressable>
             <View style={styles.textLogInContainer}>
               <Text style={styles.regText}>Немає аккаунту? </Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
                 <Text style={styles.regTextLink}>Зареєструватися</Text>
               </TouchableOpacity>
             </View>
@@ -128,7 +138,7 @@ export const LoginScreen = () => {
     </TouchableWithoutFeedback>
   );
 };
-  
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -187,6 +197,38 @@ export const styles = StyleSheet.create({
     fontFamily: "Roboto400",
     fontSize: 16,
     lineHeight: 19,
+  },
+
+  inputEmailFocus: {
+    width: 343,
+    height: 50,
+    color: "#212121",
+    backgroundColor: "#FFFFFF",
+    alignSelf: "center",
+    marginBottom: 16,
+    paddingLeft: 12,
+    borderRadius: 8,
+    fontFamily: "Roboto400",
+    fontSize: 16,
+    lineHeight: 19,
+    borderWidth: 1,
+    borderColor: "#FF6C00",
+  },
+
+  inputPassFocus: {
+    width: 344,
+    height: 50,
+    color: "#212121",
+    backgroundColor: "#FFFFFF",
+    alignSelf: "center",
+    marginBottom: 0,
+    paddingLeft: 12,
+    borderRadius: 8,
+    fontFamily: "Roboto400",
+    fontSize: 16,
+    lineHeight: 19,
+    borderWidth: 1,
+    borderColor: "#FF6C00",
   },
 
   passContainer: {

@@ -1,15 +1,32 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Pressable } from "react-native";
 import { StyleSheet } from "react-native";
-import User from "../assets/User.png";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export const PostsScreen = () => {
+
+  const navigation = useNavigation();
+
+  const onLogout = () => {
+    navigation.navigate("Login");
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.userContainer}>
-        <Image style={styles.userPhoto} source={User} />
+      <View style={styles.header}>
+        <Text style={styles.title}>Публікації</Text>
+        <Pressable onPress={onLogout}>
+          <MaterialIcons name="logout" size={24} color="#BDBDBD" />
+        </Pressable>
+      </View>
+      <View style={styles.content}>
+        <Image
+          source={require("../assets/avatar-mini.png")}
+          style={styles.avatar}
+        />
         <View>
           <Text style={styles.userName}>Natali Romanova</Text>
-          <Text style={styles.userEmail}>email@example.com</Text>
+          <Text style={styles.userMail}>email@example.com</Text>
         </View>
       </View>
     </View>
@@ -18,40 +35,46 @@ export const PostsScreen = () => {
 
 export const styles = StyleSheet.create({
   container: {
-    height: "100%",
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingTop: 32,
+    flex: 1,
     backgroundColor: "#FFFFFF",
   },
 
-  userContainer: {
+  header: {
     flexDirection: "row",
-    height: 60,
-    gap: 8,
-    alignItems: "center",
-    marginBottom: 32,
+    height: 88,
+    paddingTop: 44,
+    borderBottomWidth: 0.5,
+    borderBottomColor: " #E5E5E5",
   },
 
-  userPhoto: {
-    width: 60,
-    height: 60,
-    backgroundColor: "#F6F6F6",
-    borderRadius: 16,
+  title: {
+    fontFamily: "Roboto500",
+    fontSize: 17,
+    marginLeft: 148,
+    marginRight: 90,
+  },
+
+  content: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 32,
+    marginLeft: 16,
+  },
+
+  avatar: {
+    marginRight: 8,
   },
 
   userName: {
     fontFamily: "Roboto700",
     fontSize: 13,
-    lineHeight: 15,
-    color: "#212121",
+    lineHeight: 15.23,
   },
-  
-  userEmail: {
+
+  userMail: {
     fontFamily: "Roboto400",
     fontSize: 11,
-    lineHeight: 13,
-    color: "rgba(33, 33, 33, 0.8)",
+    lineHeight: 12.89,
   },
 });
 

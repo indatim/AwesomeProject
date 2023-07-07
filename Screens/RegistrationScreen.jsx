@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   Platform,
@@ -12,7 +13,6 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
 } from "react-native";
 import Toast, { SuccessToast, ErrorToast } from "react-native-toast-message";
 
@@ -23,13 +23,17 @@ const initialState = {
 };
 
 export const RegistrationScreen = () => {
-
   const [state, setState] = useState(initialState);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
 
-  const onRegister = () => {
+  const [loginFocus, setLoginFocus] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
+  const [passFocus, setPassFocus] = useState(false);
 
+  const navigation = useNavigation();
+
+  const onRegister = () => {
     if (!state.email || !state.password || !state.userName) {
       Toast.show({
         type: "error",
@@ -54,7 +58,8 @@ export const RegistrationScreen = () => {
       return;
     }
 
-    console.log(state);
+    // console.log(state);
+    navigation.navigate("Home");
     setState(initialState);
   };
 
@@ -82,15 +87,24 @@ export const RegistrationScreen = () => {
               <Text style={styles.regTitle}>Реєстрація</Text>
               <View style={styles.inputContainer}>
                 <TextInput
-                  style={styles.inputLogin}
+                  style={
+                    loginFocus ? styles.inputLoginFocus : styles.inputLogin
+                  }
                   placeholder="Логін"
                   value={state.userName}
+                  onFocus={() => setLoginFocus(true)}
+                  onBlur={() => setLoginFocus(false)}
                   onChangeText={(text) =>
                     setState({ ...state, userName: text.trim() })
                   }
                 ></TextInput>
                 <TextInput
-                  style={styles.inputEmail}
+                  // style={styles.inputEmail}
+                  style={
+                    emailFocus ? styles.inputEmailFocus : styles.inputEmail
+                  }
+                  onFocus={() => setEmailFocus(true)}
+                  onBlur={() => setEmailFocus(false)}
                   placeholder="Адреса електронної пошти"
                   keyboardType="email-address"
                   value={state.email}
@@ -100,7 +114,9 @@ export const RegistrationScreen = () => {
                 ></TextInput>
                 <View style={styles.passContainer}>
                   <TextInput
-                    style={styles.inputPass}
+                    style={passFocus ? styles.inputPassFocus : styles.inputPass}
+                    onFocus={() => setPassFocus(true)}
+                    onBlur={() => setPassFocus(false)}
                     placeholder="Пароль"
                     textContentType="password"
                     secureTextEntry={!isShowPassword}
@@ -116,7 +132,8 @@ export const RegistrationScreen = () => {
                     onPress={handleShowPass}
                   >
                     <Text style={styles.showPassText}>
-                      {""}{!isShowPassword ? "Показати" : "Сховати"}
+                      {""}
+                      {!isShowPassword ? "Показати" : "Сховати"}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -129,7 +146,9 @@ export const RegistrationScreen = () => {
               <Text style={styles.btnText}>Зареєстуватися</Text>
             </Pressable>
             <View>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Login")}
+              >
                 <Text style={styles.accountText}>Вже є акаунт? Увійти</Text>
               </TouchableOpacity>
             </View>
@@ -213,6 +232,22 @@ const styles = StyleSheet.create({
     lineHeight: 19,
   },
 
+  inputLoginFocus: {
+    width: 343,
+    height: 50,
+    color: "#212121",
+    backgroundColor: "#FFFFFF",
+    alignSelf: "center",
+    marginBottom: 16,
+    paddingLeft: 12,
+    borderRadius: 8,
+    fontFamily: "Roboto400",
+    fontSize: 16,
+    lineHeight: 19,
+    borderWidth: 1,
+    borderColor: "#FF6C00",
+  },
+
   inputEmail: {
     width: 343,
     height: 50,
@@ -225,6 +260,22 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto400",
     fontSize: 16,
     lineHeight: 19,
+  },
+
+  inputEmailFocus: {
+    width: 343,
+    height: 50,
+    color: "#212121",
+    backgroundColor: "#FFFFFF",
+    alignSelf: "center",
+    marginBottom: 16,
+    paddingLeft: 12,
+    borderRadius: 8,
+    fontFamily: "Roboto400",
+    fontSize: 16,
+    lineHeight: 19,
+    borderWidth: 1,
+    borderColor: "#FF6C00",
   },
 
   passContainer: {
@@ -244,6 +295,22 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto400",
     fontSize: 16,
     lineHeight: 19,
+  },
+
+  inputPassFocus: {
+    width: 344,
+    height: 50,
+    color: "#212121",
+    backgroundColor: "#FFFFFF",
+    alignSelf: "center",
+    marginBottom: 0,
+    paddingLeft: 12,
+    borderRadius: 8,
+    fontFamily: "Roboto400",
+    fontSize: 16,
+    lineHeight: 19,
+    borderWidth: 1,
+    borderColor: "#FF6C00",
   },
 
   showPassContainer: {
