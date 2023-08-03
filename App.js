@@ -7,6 +7,8 @@ import RegistrationScreen from "./Screens/RegistrationScreen";
 import LoginScreen from "./Screens/LoginScreen";
 import Home from "./Screens/Home";
 import Toast from "react-native-toast-message";
+import MapScreen from "./Screens/MapScreen";
+import CommentsScreen from "./Screens/CommentsScreen"
 
 const MainStack = createStackNavigator();
 
@@ -39,6 +41,14 @@ export default function App() {
           <MainStack.Screen
             name="Home"
             component={Home}
+          />
+          <MainStack.Screen
+            name="Map"
+            component={MapScreen}
+          />
+          <MainStack.Screen
+            name="Comments"
+            component={CommentsScreen}
           />
         </MainStack.Navigator>
       </NavigationContainer>

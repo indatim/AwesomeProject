@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons, Feather } from "@expo/vector-icons";
-
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import PostsScreen from "./PostsScreen";
 import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
@@ -26,10 +26,15 @@ export const Home = () => {
         tabBarShowLabel: false,
         tabBarIcon: ({ focused, size }) => {
           let iconComponent;
+          getFocusedRouteNameFromRoute(route);
 
           if (route.name === "Posts") {
             iconComponent = (
-              <Ionicons name="grid-outline" size={size} color="#212121" />
+              <Ionicons
+                name="grid-outline"
+                size={size}
+                color={focused ? "#FF6C00" : "#212121"}
+              />
             );
           } else if (route.name === "Create Posts") {
             iconComponent = (
@@ -38,7 +43,13 @@ export const Home = () => {
               </View>
             );
           } else if (route.name === "Profile") {
-            iconComponent = <Feather name="user" size={size} color="#212121" />;
+            iconComponent = (
+              <Feather
+                name="user"
+                size={size}
+                color={focused ? "#FF6C00" : "#212121"}
+              />
+            );
           }
 
           return iconComponent;

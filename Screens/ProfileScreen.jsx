@@ -61,7 +61,9 @@ export const ProfileScreen = () => {
                     size={15}
                     color="#BDBDBD"
                   />
-                  <Text style={styles.location}>Ukraine</Text>
+                  <Pressable onPress={() => navigation.navigate("Map")}>
+                    <Text style={styles.location}>Ukraine</Text>
+                  </Pressable>
                 </View>
               </View>
             </ScrollView>
