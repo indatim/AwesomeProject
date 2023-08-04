@@ -11,7 +11,7 @@ export const PostsScreen = () => {
   const uriPhoto = route.params?.uriPhoto || null;
   const namePhoto = route.params?.namePhoto || null;
   const nameLocation = route.params?.nameLocation || null;
-  const location = route.params?.location || null;
+  const currentLocation = route.params?.currentLocation || null;
 
   const onLogout = () => {
     navigation.navigate("Login");
@@ -53,8 +53,8 @@ export const PostsScreen = () => {
               <SimpleLineIcons name="location-pin" size={15} color="#BDBDBD" />
               <Pressable
                 onPress={() => {
-                  navigation.navigate("Map", { locationPhoto: location });
-                  console.log(location);
+                  navigation.navigate("Map", { locationPhoto: currentLocation });
+                  // console.log(currentLocation);
                 }}
               >
                 <Text style={styles.location}>{nameLocation}</Text>

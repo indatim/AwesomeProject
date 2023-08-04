@@ -26,7 +26,6 @@ export const CreatePostsScreen = () => {
   const [uriPhoto, setUriPhoto] = useState(null);
   const [namePhoto, setNamePhoto] = useState("");
   const [nameLocation, setNameLocation] = useState("");
-  const [location, setLocation] = useState(null);
   const [isFieldsEmpty, setIsFieldsEmpty] = useState(true);
 
   useEffect(() => {
@@ -34,23 +33,16 @@ export const CreatePostsScreen = () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       await MediaLibrary.requestPermissionsAsync();
 
-      setHasPermission(status === "granted");
-    })();
+      const locationPermission =
+        await Location.requestForegroundPermissionsAsync();
 
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
+      if (locationPermission.status !== "granted") {
         console.log("Відмовлено в доступі до місцезнаходження");
+        return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
-      const coords = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      };
-      setLocation(coords);
+      setHasPermission(status === "granted");
     })();
-
   }, []);
 
   if (hasPermission === null) {
@@ -67,7 +59,7 @@ export const CreatePostsScreen = () => {
   const clearInputs = () => {
     setNamePhoto("");
     setNameLocation("");
-    setLocation(null);
+    // setLocation(null);
   };
 
   const checkFieldsEmpty = () => {
@@ -80,11 +72,21 @@ export const CreatePostsScreen = () => {
 
   const onCreatePost = async () => {
 
+    let currentLocation = null;
+    try {
+      const { coords } = await Location.getCurrentPositionAsync();
+      const { latitude, longitude } = coords;
+
+      currentLocation = { latitude, longitude };
+    } catch (error) {
+      console.log("Помилка під час отримання місцезнаходження:", error);
+    }
+
     navigation.navigate("Posts", {
       uriPhoto,
       namePhoto,
       nameLocation,
-      location,
+      currentLocation,
     });
 
     clearInputs();
@@ -142,7 +144,7 @@ export const CreatePostsScreen = () => {
                       if (cameraRef) {
                         const { uri } = await cameraRef.takePictureAsync();
                         await MediaLibrary.createAssetAsync(uri);
-                        console.log(uri);
+                        // console.log(uri);
                         setUriPhoto(uri);
                       }
                     }}
@@ -200,7 +202,7 @@ export const CreatePostsScreen = () => {
                   : styles.createPostBtnText
               }
             >
-              Опубліковати
+              Опублікувати
             </Text>
           </Pressable>
             <Pressable
